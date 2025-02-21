@@ -1,0 +1,287 @@
+\ProvidesPackage{UTKMathMacros}[2025/02/21 This package provides useful commands and environments to create assignments for the math 123 course and possibly others.]
+
+
+%--------------- Required Packages ------------------
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{array}
+\RequirePackage{multirow}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{enumitem}
+\RequirePackage{mdframed}
+\RequirePackage{wasysym}
+\RequirePackage{exsheets}
+
+%--------------- Questions and Solutions Style ------------------
+\definecolor{solution-color}{RGB}{0,0,255}
+\definecolor{rubric-color}{RGB}{255,0,0}
+
+\DeclareInstance{exsheets-heading}{exam-problems}{default}{
+  runin = true,
+  points-pre-code = [,
+  points-post-code = ]\space,
+  join =
+  {
+    main[r,vc]number[l,vc](0pt,0pt);
+    main[r,vc]points[l,vc](.333em,0pt)
+  }
+}
+
+\SetupExSheets{counter-format = qu.}
+\SetupExSheets[question]{headings = exam-problems}
+\SetupExSheets[solution]{headings = empty, pre-body-hook = {\color{solution-color}}}
+\SetupExSheets[points]{name = pt/s}
+
+% ------------ Rubric and Solution Notes ------------
+\newcommand{\rubric}[1]{\PrintSolutionsT{\color{rubric-color}#1}}
+\newcommand{\mrubric}[1]{\PrintSolutionsT{\reversemarginpar\marginpar[\raggedleft\color{rubric-color}#1]{\raggedright\color{rubric-color}#1}}}
+\newcommand{\answer}[1]{\PrintSolutionsT{\color{solution-color}#1}}
+\newcommand{\FillBlank}[2][2]{\PrintSolutionsTF{\underline{\hspace{0.15in}\answer{#2}\hspace{0.15in}}}{\blank[scale={#1}]{#2}}}
+
+% --------- Multiple Choice and Select All ---------
+\newcommand{\choice}{{\Large\(\Circle\)}}
+\newcommand{\correctchoice}{%
+  \PrintSolutionsTF{{\color{solution-color}\Large\(\CIRCLE\)}}{\choice}%
+}
+
+\newcommand{\selectall}{{\Large\(\Square\)}}
+\newcommand{\correctselectall}{%
+  \PrintSolutionsTF{{\color{solution-color}\Large\(\blacksquare\)}}{\selectall}%
+}
+
+% --------- Answer Box ---------
+\newcommand{\AnswerBox}[3][0.5in]{%
+  \mdframed
+  \begin{centering}
+  #2\\
+  \PrintSolutionsTF{\vspace{0.1in} \color{solution-color}#3\\ \vspace{0.1in}}{\vspace{#1}}
+  \end{centering}
+  \endmdframed
+}
+\newcommand{\AnswerBoxLeft}[2]{%
+  \mdframed
+  \vspace{0.16in}
+  #1 \answer{#2}
+  \vspace{0.16in}
+  \endmdframed
+}
+
+% --------- Instructions ---------
+\newcommand{\TrueFalseInstructions}{Determine if the statement is True or False and fill in your answer choice completely.}
+\newcommand{\MultipleChoiceInstructions}{Multiple choice, fill in your choice completely.}
+\newcommand{\SelectAllInstructions}{Select all that apply and fill in your choices completely.}
+\newcommand{\FormulaInstructions}{\textit{Select all formulas that are needed, fill in the formula(s) with the given values, and then solve.}}
+\newcommand{\RoundUnitsInstructions}{\textit{Round the final answer to 2 decimal places and include units with the final answer.}}
+\newcommand{\TVMInstructions}{\textit{Fill in the information you would enter into the TVM solver to solve this problem. Write ``alpha'' in the box corresponding to the variable you are solving for. \textbf{Do NOT solve.}}}
+\newcommand{\AmortizationInstructions}{\textit{Fill in the next row of the amortization schedule. Round your final answers to 2 decimal places.}}
+\newcommand{\MethodOfCornersInstructions}{
+  Solve the LP Problem using the method of corners.
+  \textbf{Shade} the graph according to the given system of inequalities and label the \textbf{Feasible Region (S)}.
+  Write the corner points of the feasible region.
+  \begin{itemize}
+    \item If the problem has \textbf{No Solution}, then write \underline{No Solution Type}: Empty Feasible Region or Unbounded Feasible Region.
+    \item If the problem has a \textbf{Unique Solution}, then write the \underline{Optimal Solution} as point and state the \underline{Optimal Value}.
+    \item If the problem has \textbf{Infinite Solutions}, then describe the \underline{Line Segment} where the \underline{Optimal Solutions} are and state the \underline{Optimal Value}.
+  \end{itemize}
+}
+\newcommand{\SimplexSetupInstructions}{
+  Decide if the given LP problem should be solved with the \textbf{Standard} Simplex method or with the \textbf{Non-Standard} Simplex method.
+  Rewrite the objective function in Standard form.
+  Write slack variable equations.
+  Setup the initial tableau and circle the first pivot.\\
+}
+\newcommand{\SimplexSolutionInstructions}{
+  Check if the given tableau is in final form and if so, decide if the associated LP problem has a Unique Solution, Infinite Solutions, or No Solution.
+  \begin{itemize}
+    \item If \textbf{Not Final Form}, then give the \underline{Next Pivot} and write the current \underline{Basic Solution} separating active and inactive variables.
+    \item If \textbf{Unique Solution}, then write the \underline{Optimal Solution} as point and give the \underline{Optimal Value}.
+    \item If \textbf{Infinite Solutions}, then write one \underline{Optimal Solution} as a point, write the \underline{Next Pivot} to find the other endpoint of the line segment, and give the \underline{Optimal Value}.
+    \item If \textbf{No Solution}, then write the \underline{No Solution Type}: Empty Feasible Region or Unbounded Feasible Region.
+  \end{itemize}
+}
+
+
+% --------- Formulas ---------
+\newcommand{\UnitOneFormulas}{
+  \mdframed
+  \vspace{0.1in}
+  \begin{tasks}[after-item-skip={0.08in}](3)
+    \task[\textbf{A. }] \ \(I=Prt\)
+    \task[\textbf{B. }] \ \(A=P(1+rt)\)
+    \task[\textbf{C. }] \ \(A=P(1+i)^n\)
+    \task[\textbf{D. }] \ \(r_{\text{eff}}=\left(1+\dfrac{r}{m}\right)^m - 1\)
+    \task[\textbf{E. }] \ \(r_{\text{eff}} = \left(\dfrac{A}{P}\right)^{1/t} - 1\)
+    \task[] \hspace{-0.2in}\(i=\dfrac{r}{m}\), \ \(n=mt\)
+    \task[\textbf{F. }] \ \(S = R\left[\dfrac{(1+i)^n-1}{i} \right]\)
+    \task[\textbf{G. }] \ \(P = R\left[\dfrac{1-(1+i)^{-n}}{i} \right]\)
+  \end{tasks}
+  \vspace{0.02in}
+  \endmdframed
+}
+
+\newcommand{\AllFormulas}{
+  \mdframed
+  \vspace{0.1in}
+  \begin{tasks}[after-item-skip={0.08in}](3)
+    \task[\textbf{A. }] \ \(I=Prt\)
+    \task[\textbf{B. }] \ \(A=P(1+rt)\)
+    \task[\textbf{C. }] \ \(A=P(1+i)^n\)
+    \task[\textbf{D. }] \ \(r_{\text{eff}}=\left(1+\dfrac{r}{m}\right)^m - 1\)
+    \task[\textbf{E. }] \ \(r_{\text{eff}} = \left(\dfrac{A}{P}\right)^{1/t} - 1\)
+    \task[] \hspace{-0.2in}\(i=\dfrac{r}{m}\), \ \(n=mt\)
+    \task[\textbf{F. }] \ \(S = R\left[\dfrac{(1+i)^n-1}{i} \right]\)
+    \task*[\textbf{G. }] \ \(P = R\left[\dfrac{1-(1+i)^{-n}}{i} \right]\)
+    \task[\textbf{H. }] \ \(A^{-1} = \dfrac{1}{ad-bc}\begin{bmatrix} d & -b \\ -c & a\end{bmatrix}\)
+    \task*[] \hspace{-0.2in}(if \(ad-bc\not=0\))
+    \task[\textbf{I. }] \ \(p_1 = \dfrac{d-c}{a+d-b-c}\)
+    \task[\textbf{J. }] \ \(q_1 = \dfrac{d-b}{a+d-b-c}\)
+    \task[\textbf{K. }] \ \(E = \dfrac{ad-bc}{a+d-b-c}\)
+    \task[\textbf{L. }] \ \(E = PAQ\)
+    \task[\textbf{M. }] \ \(E = \dfrac{1}{Z}-k\)
+  \end{tasks}
+  \endmdframed
+}
+
+% TODO: Add Formulas from other units --------------------------------------------------------------
+
+% --------- TVM Solver Table ---------
+\newcommand{\TVMTable}[6]{
+  \renewcommand{\arraystretch}{1.2}
+  \begin{center}
+  \begin{tabular}{|l|m{4.5cm}|l|l|m{4.5cm}|}
+    \hline
+    \begin{tabular}[c]{@{}l@{}}N =\\ \textit{(Periods)}\end{tabular}
+    & \answer{#1}
+    & \multirow{3}{*}{}
+    & \begin{tabular}[c]{@{}l@{}}PMT = \\ \textit{(Payment)}\end{tabular}
+    & \answer{#2}
+    \\ \cline{1-2} \cline{4-5}
+    \begin{tabular}[c]{@{}l@{}}I\% = \\ \textit{(Annual Rate)}\end{tabular}
+    & \answer{#3}
+    &
+    & \begin{tabular}[c]{@{}l@{}}FV = \\ \textit{(Future Value)}\end{tabular}
+    & \answer{#4}
+    \\ \cline{1-2} \cline{4-5}
+    \begin{tabular}[c]{@{}l@{}}PV = \\ \textit{(Present Value)}\end{tabular}
+    & \answer{#5}
+    &
+    & \begin{tabular}[c]{@{}l@{}}P/Y and C/Y = \\ \textit{(compounding)}\end{tabular}
+    & \answer{#6}
+    \\ \hline
+  \end{tabular}
+  \end{center}
+  \renewcommand{\arraystretch}{1}
+}
+
+% --------- Amortization Table ---------
+\newenvironment{amortization}{
+  \renewcommand{\arraystretch}{2.0}
+  \begin{center}
+  \begin{tabular}{| >{\centering}m{0.1\linewidth} | >{\centering}m{0.17\linewidth} | >{\centering}m{0.17\linewidth} | >{\centering}m{0.18\linewidth} | >{\centering\arraybackslash}m{0.19\linewidth} |}
+    \hline
+    \textbf{End of Period} & \textbf{Interest Charged} & \textbf{Repayment Made} & \textbf{Payment Toward Principal} & \textbf{Outstanding Principal} \\
+    \hline
+    \hline
+}{
+    \hline
+  \end{tabular}
+  \end{center}
+  \renewcommand{\arraystretch}{1}
+}
+
+% --------- Augmented Matrix ---------
+\newenvironment{amatrix}[2]{%
+  \left[%
+    \begin{array}{@{}*{#1}{c}|*{#2}{c}@{}}
+}{%
+    \end{array}%
+  \right]
+}
+\newcommand*\circled[1]{%
+  \tikz[baseline=(char.base)]{\node[shape=circle, draw, inner sep=2pt] (char) {#1};}
+}
+\newcommand{\circledIF}[1]{\PrintSolutionsTF{\color{solution-color}\circled{#1}}{#1}}
+
+% ---------- Simplex Tableau ---------------
+\newenvironment{tableau}[1]{%
+    \begin{array}{@{}*{#1}{c}|{c}@{}}
+}{%
+    \end{array}%
+}
+
+% --------- Graphing Environment ---------
+\newenvironment{largegraph}{%
+  \begin{tikzpicture}
+    \begin{axis}[%
+      xmin = -7.5, xmax = 7.5, ymin = -7.5, ymax = 7.5,
+      domain = -7.5:7.5, restrict y to domain = -7.5:7.5,
+      clip = false,
+      xtick = {-8,...,8}, xticklabels = \empty,
+      ytick = {-8,...,8}, yticklabels = \empty,
+      axis x line = middle, axis y line = middle,
+      grid = major, xlabel = {\(x\)}, ylabel = {\(y\)},
+      xlabel style = {at = (current axis.right of origin), anchor = west},
+      ylabel style = {at = (current axis.above origin), anchor = south},
+      cycle list name = exotic, no marks, line width = 1pt,
+      width = \textwidth, height = \textwidth
+      ]
+}{%
+    \end{axis}
+  \end{tikzpicture}
+}
+
+\newenvironment{largegraphqone}{%
+  \begin{tikzpicture}
+    \begin{axis}[%
+      xmin = -1.5, xmax = 7.5, ymin = -1.5, ymax = 7.5,
+      domain = -1.5:7.5, restrict y to domain = -1.5:7.5,
+      clip = false,
+      xtick = {-2,...,8}, xticklabels = \empty,
+      ytick = {-2,...,8}, yticklabels = \empty,
+      axis x line = middle, axis y line = middle,
+      grid = major, xlabel = {\(x\)}, ylabel = {\(y\)},
+      xlabel style = {at = (current axis.right of origin), anchor = west},
+      ylabel style = {at = (current axis.above origin), anchor = south},
+      cycle list name = exotic, no marks, line width = 1pt,
+      width = \textwidth, height = \textwidth
+      ]
+}{%
+    \end{axis}
+  \end{tikzpicture}
+}
+
+\newenvironment{smallgraph}{%
+  \begin{tikzpicture}
+    \begin{axis}[
+      xmin = -4.5, xmax = 4.5, ymin = -4.5, ymax = 4.5,
+      domain = -4.5:4.5, restrict y to domain = -4.5:4.5,
+      clip = false,
+      xtick = {-5,...,5}, xticklabels = \empty,
+      ytick = {-5,...,5}, yticklabels = \empty,
+      axis x line = middle, axis y line = middle,
+      grid = major, xlabel = {\(x\)}, ylabel = {\(y\)},
+      xlabel style = {at = (current axis.right of origin), anchor = west},
+      ylabel style = {at = (current axis.above origin), anchor = south},
+      cycle list name = exotic, no marks, line width = 1pt,
+      width = 1.8in, height = 1.8in
+      ]
+}{%
+    \end{axis}
+  \end{tikzpicture}
+}
+
+\newcommand{\intercepts}[4]{%
+  \begin{center}
+  \begin{tabular}{ | >{\raggedleft\arraybackslash}m{0.7in} | >{\centering\arraybackslash}m{1.5in} | >{\centering\arraybackslash}m{1.5in} | }
+    \hline
+    & & \\
+    & \textbf{\(x\)-intercept} & \textbf{\(y\)-intercept} \\\hline
+    & & \\
+    \textbf{Line 1} & \answer{\(#1\)} & \answer{\(#2\)} \\
+    & & \\\hline
+    & & \\
+    \textbf{Line 2} & \answer{\(#3\)} & \answer{\(#4\)} \\
+    & & \\\hline
+  \end{tabular}
+  \end{center}
+}
