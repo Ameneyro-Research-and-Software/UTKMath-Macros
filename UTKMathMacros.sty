@@ -34,10 +34,10 @@
 \SetupExSheets[points]{name = pt/s}
 
 % ------------ Rubric and Solution Notes ------------
-\newcommand{\rubric}[1]{\PrintSolutionsT{\color{rubric-color}#1}}
+\newcommand{\rubric}[1]{\PrintSolutionsT{ {\color{rubric-color}#1} }}
 \newcommand{\mrubric}[1]{\PrintSolutionsT{\reversemarginpar\marginpar[\raggedleft\color{rubric-color}#1]{\raggedright\color{rubric-color}#1}}}
-\newcommand{\answer}[1]{\PrintSolutionsT{\color{solution-color}#1}}
-\newcommand{\FillBlank}[2][2]{\PrintSolutionsTF{\underline{\hspace{0.15in}\answer{#2}\hspace{0.15in}}}{\blank[scale={#1}]{#2}}}
+\newcommand{\answer}[1]{\PrintSolutionsT{ {\color{solution-color}#1} }}
+\newcommand{\FillBlank}[2][scale=2]{\PrintSolutionsTF{\underline{\hspace{0.15in}\answer{#2}\hspace{0.15in}}}{\blank[#1]{#2}}}
 
 % --------- Multiple Choice and Select All ---------
 \newcommand{\choice}{{\Large\(\Circle\)}}
@@ -55,7 +55,7 @@
   \mdframed
   \begin{centering}
   #2\\
-  \PrintSolutionsTF{\vspace{0.1in} \color{solution-color}#3\\ \vspace{0.1in}}{\vspace{#1}}
+  \PrintSolutionsTF{\vspace{0.1in} {\color{solution-color}#3}\\ \vspace{0.1in}}{\vspace{#1}}
   \end{centering}
   \endmdframed
 }
